@@ -1,28 +1,53 @@
 const express = require("express");
 const { Resend } = require("resend");
+const dotenv = require('dotenv');
+const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
+dotenv.config();
 
 const app = express();
-const resend = new Resend("API_KEY_RESEND");//Aqui solo va el API_KEY_RESEND Solo eso necesitamos para el envio del correo
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-app.get("/", async (req, res) => {
+app.use(express.json());
+
+console.log('primer paso' , process.env.FROM_EMAIL)
+
+app.use(cors()); 
+
+app.post('/doangcespedesform', async (req, res) => {
+  const formData = req.body;
+  const toEmail = formData.to || process.env.DEFAULT_RECIPIENT_EMAIL;
+
+
+  const templatePath = path.join(__dirname, './html/DoangCespedes.html');
+  let htmlContent = fs.readFileSync(templatePath, 'utf8');
+
+  htmlContent = htmlContent
+    .replace(/\{\{name\}\}/g, formData.name || '')
+    .replace(/\{\{email\}\}/g, formData.email || '')
+    .replace(/\{\{subject\}\}/g, formData.subject || '')
+    .replace(/\{\{message\}\}/g, formData.message || '');
+
   try {
-    const { data, error } = await resend.emails.send({
-      from: "Acme <noreply@tu_dominio_registrado_en_resend.com>",//yo use collisioncenterpdr.com ===> El dominio te ayuda a enviar correos a todas las companias de correos.
-      to: ["doangcespedesloreto@outlook.com"],
-      subject: "hello world",
-      html: "<strong>it works!</strong>",
+    const response = await resend.emails.send({
+      from: process.env.FROM_EMAIL , 
+      to: toEmail,
+      subject: 'Nuevo formulario recibido',
+      html: htmlContent,
     });
-
-    if (error) {
-      return res.status(400).json({ error });
-    }
-
-    res.status(200).json({ data });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(200).json({ success: true, data: response });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 
-app.listen(3000, () => {
-  console.log("Listening on http://localhost:3000");
+
+app.get('/', (req, res) => {
+  res.send('API para enviar correos desde formularios');  
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`API escuchando en http://localhost:${PORT}`);
 });
