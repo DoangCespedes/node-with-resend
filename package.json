@@ -1,14 +1,15 @@
 {
   "name": "nodejsresend",
   "version": "1.0.0",
-  "description": "",
+  "description": "Web Service para enviar correos con Resend",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "dev": "node --watch index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "TuNombre",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
