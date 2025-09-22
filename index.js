@@ -15,12 +15,41 @@ console.log('primer paso' , process.env.FROM_EMAIL)
 
 app.use(cors()); 
 
+// Primera ruta para Doang Cespedes
 app.post('/doangcespedesform', async (req, res) => {
   const formData = req.body;
   const toEmail = formData.to || process.env.DEFAULT_RECIPIENT_EMAIL;
 
 
   const templatePath = path.join(__dirname, './html/DoangCespedes.html');
+  let htmlContent = fs.readFileSync(templatePath, 'utf8');
+
+  htmlContent = htmlContent
+    .replace(/\{\{name\}\}/g, formData.name || '')
+    .replace(/\{\{email\}\}/g, formData.email || '')
+    .replace(/\{\{subject\}\}/g, formData.subject || '')
+    .replace(/\{\{message\}\}/g, formData.message || '');
+
+  try {
+    const response = await resend.emails.send({
+      from: process.env.FROM_EMAIL , 
+      to: toEmail,
+      subject: 'Nuevo formulario recibido',
+      html: htmlContent,
+    });
+    res.status(200).json({ success: true, data: response });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Segunda ruta para Oscar Loreto
+app.post('/oscarloretoform', async (req, res) => {
+  const formData = req.body;
+  const toEmail = formData.to || process.env.OL_EMAIL;
+
+
+  const templatePath = path.join(__dirname, './html/OscarLoreto.html');
   let htmlContent = fs.readFileSync(templatePath, 'utf8');
 
   htmlContent = htmlContent
