@@ -71,6 +71,36 @@ app.post('/oscarloretoform', async (req, res) => {
   }
 });
 
+// Tercera ruta para Collision center
+app.post('/collisioncenterform', async (req, res) => {
+  const formData = req.body;
+  const toEmail = formData.to || process.env.CCPDR_EMAIL ;
+
+  const templatePath = path.join(__dirname, './html/collisioncenter.html');
+  let htmlContent = fs.readFileSync(templatePath, 'utf8');
+
+  htmlContent = htmlContent
+    .replace(/\{\{fullName\}\}/g, formData.fullName || '')
+    .replace(/\{\{phone\}\}/g, formData.phone || '')
+    .replace(/\{\{email\}\}/g, formData.email || '')
+    .replace(/\{\{vinNumber\}\}/g, formData.vinNumber || '')
+    .replace(/\{\{damageType\}\}/g, formData.damageType || '')
+    .replace(/\{\{insuranceCompany\}\}/g, formData.insuranceCompany || 'N/A')
+    .replace(/\{\{description\}\}/g, formData.description || '');
+
+  try {
+    const response = await resend.emails.send({
+      from: process.env.FROM_EMAIL , 
+      to: toEmail,
+      subject: 'Nueva cotización recibida - Collision Center',
+      html: htmlContent,
+    });
+    res.status(200).json({ success: true, data: response });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 
 app.get('/', (req, res) => {
   res.send('API para enviar correos desde formularios');  

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nueva Cotización - Collision Center</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f2f5f9;
+      font-family: Arial, Helvetica, sans-serif;
+      color: #333;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 40px auto;
+      background-color: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, #0b5ed7, #084298);
+      padding: 25px;
+      text-align: center;
+      color: #fff;
+    }
+
+    .header img {
+      max-width: 140px;
+      margin-bottom: 15px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    .header p {
+      margin-top: 10px;
+      font-size: 15px;
+      opacity: 0.95;
+    }
+
+    /* Content */
+    .content {
+      padding: 30px;
+    }
+
+    .alert {
+      background-color: #fff3cd;
+      color: #856404;
+      padding: 15px 18px;
+      border-radius: 8px;
+      font-size: 15px;
+      margin-bottom: 25px;
+      border-left: 5px solid #ffc107;
+    }
+
+    .section-title {
+      font-size: 18px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 8px;
+      color: #0b5ed7;
+      font-weight: bold;
+    }
+
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .data-table td {
+      padding: 10px 8px;
+      font-size: 14px;
+      vertical-align: top;
+    }
+
+    .data-table td.label {
+      font-weight: bold;
+      width: 40%;
+      color: #555;
+    }
+
+    .data-table tr:nth-child(even) {
+      background-color: #f8fafc;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #f8fafc;
+      padding: 20px 30px;
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+    }
+
+    .eco {
+      background-color: #e9f7ef;
+      color: #1e8449;
+      padding: 12px;
+      font-size: 12px;
+      border-radius: 6px;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header">
+      <!-- Logo dinámico -->
+      <!-- <img src="{{logoUrl}}" alt="Collision Center Logo" /> -->
+      <h1>Nueva Cotización Recibida</h1>
+      <p>Collision Center – Atención inmediata requerida</p>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+
+      <div class="alert">
+        ⚠️ Se ha recibido una nueva cotización. Por favor contacta al cliente lo antes posible.
+      </div>
+
+      <div class="section-title">Información del Cliente</div>
+
+      <table class="data-table">
+        <tr>
+          <td class="label">Nombre completo</td>
+          <td>{{fullName}}</td>
+        </tr>
+        <tr>
+          <td class="label">Teléfono</td>
+          <td>{{phone}}</td>
+        </tr>
+        <tr>
+          <td class="label">Correo electrónico</td>
+          <td>{{email}}</td>
+        </tr>
+      </table>
+
+      <br />
+
+      <div class="section-title">Detalles del Vehículo</div>
+
+      <table class="data-table">
+        <tr>
+          <td class="label">Vin number</td>
+          <td>{{vinNumber}}</td>
+        </tr>
+        <tr>
+          <td class="label">Tipo de daño</td>
+          <td>{{damageType}}</td>
+        </tr>
+        <tr>
+          <td class="label">Compañía de seguros</td>
+          <td>{{insuranceCompany}}</td>
+        </tr>
+        <tr>
+          <td class="label">Descripción</td>
+          <td>{{description}}</td>
+        </tr>
+      </table>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      Este mensaje contiene información confidencial y está destinado únicamente al destinatario.
+    </div>
+
+  </div>
+
+</body>
+</html>
