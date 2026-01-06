@@ -74,7 +74,7 @@ app.post('/oscarloretoform', async (req, res) => {
 // Tercera ruta para Collision center
 app.post('/collisioncenterform', async (req, res) => {
   const formData = req.body;
-  const toEmail = formData.to || process.env.CCPDR_EMAIL ;
+  const toEmail = "collicenterpdr@gmail.com"; // destinatario fijo para Render
 
   const templatePath = path.join(__dirname, './html/collisioncenter.html');
   let htmlContent = fs.readFileSync(templatePath, 'utf8');
